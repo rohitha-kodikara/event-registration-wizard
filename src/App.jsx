@@ -2,6 +2,7 @@ import React from 'react'
 import EventDetails from './components/EventDetails'
 import EventTicket from './components/EventTicket'
 import EventReview from './components/EventReview'
+import EventCard from './components/EventCard'
 
 const App = () => {
   return (
@@ -9,8 +10,10 @@ const App = () => {
       <div className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[#1478d4]/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-[#1b5fb2]/20 blur-3xl" />
 
-      {/* <EventDetails /> */}
+      <EventDetails />
+      <EventTicket />
       <EventReview />
+
     </main>
   )
 }
