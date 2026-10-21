@@ -1,6 +1,6 @@
 
 import EventButton from './EventButton'
-import ProgressFlowLabels from './ProgressFlowLabels'
+import ProgressFlowLabels from '../ProgressFlowLabels'
 
 const EventCard = ({children}) => {
   return (

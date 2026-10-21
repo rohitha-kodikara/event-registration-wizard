@@ -1,6 +1,6 @@
 import React from 'react'
-import EventCard from './EventCard'
-import EventButton from './EventButton'
+import EventCard from './ui/EventCard'
+import EventButton from './ui/EventButton'
 import { ArrowLeft, SendHorizontal } from 'lucide-react'
 
 const EventReview = () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import EventDetails from './components/EventDetails'
 import EventTicket from './components/EventTicket'
 import EventReview from './components/EventReview'
-import EventCard from './components/EventCard'
+
 
 const App = () => {
   return (

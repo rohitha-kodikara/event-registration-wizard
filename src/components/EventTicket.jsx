@@ -1,6 +1,6 @@
 import React from 'react'
-import EventCard from './EventCard'
-import EventButton from './EventButton'
+import EventCard from './ui/EventCard'
+import EventButton from './ui/EventButton'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 const EventTicket = () => {
