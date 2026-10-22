@@ -1,6 +1,6 @@
 
 import EventButton from './EventButton'
-import ProgressFlowLabels from '../ProgressFlowLabels'
+import ProgressFlow from '../event/ProgressFlow'
 
 const EventCard = ({children}) => {
   return (
@@ -22,7 +22,7 @@ const EventCard = ({children}) => {
         Reset
         </EventButton>
         </div>
-        <ProgressFlowLabels /> 
+        <ProgressFlow /> 
             {children}
         </div>
       </section>

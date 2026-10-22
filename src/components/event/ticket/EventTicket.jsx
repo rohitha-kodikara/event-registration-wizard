@@ -1,9 +1,9 @@
 import React from 'react'
-import EventCard from './ui/EventCard'
-import EventButton from './ui/EventButton'
+import EventCard from '../../ui/EventCard'
+import EventButton from '../../ui/EventButton'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
-const EventTicket = () => {
+const EventTicket = ({ handleNextStep, handlePrevStep }) => {
   return (
       <EventCard>
 
@@ -77,10 +77,14 @@ const EventTicket = () => {
           </div>
 
           <div className="flex justify-between pt-1">
-           <EventButton bgColor="bg-gray-700/70" icon={<ArrowLeft />} iconPosition="before">
+           <EventButton 
+           onClick={handlePrevStep}
+           bgColor="bg-gray-700/70" icon={<ArrowLeft />} iconPosition="before">
             Back
            </EventButton>
-            <EventButton icon={<ArrowRight />} bgColor="bg-[#3285df]">
+            <EventButton icon={<ArrowRight />} bgColor="bg-[#3285df]"
+            onClick={handleNextStep}
+            >
               Next
             </EventButton>
           </div>

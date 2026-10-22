@@ -1,6 +1,6 @@
-import React from 'react'
 
-const ProgressFlowLabels = () => {
+
+const ProgressFlow = () => {
   return (
     <nav aria-label="Registration progress" className="mt-7">
           <ol className="flex items-center">
@@ -37,4 +37,4 @@ const ProgressFlowLabels = () => {
   )
 }
 
-export default ProgressFlowLabels
+export default ProgressFlow

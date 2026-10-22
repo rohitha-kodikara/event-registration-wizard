@@ -1,9 +1,9 @@
 import React from 'react'
-import EventCard from './ui/EventCard'
-import EventButton from './ui/EventButton'
+import EventCard from '../../ui/EventCard'
+import EventButton from '../../ui/EventButton'
 import { ArrowLeft, SendHorizontal } from 'lucide-react'
 
-const EventReview = () => {
+const EventReview = ({  handlePrevStep }) => {
   return (
     <EventCard>
 
@@ -57,7 +57,9 @@ const EventReview = () => {
       </div>
 
       <div className="mt-5 flex justify-between gap-3">
-       <EventButton bgColor="bg-gray-700/70" icon={<ArrowLeft />} iconPosition="before">
+       <EventButton
+        onClick={handlePrevStep} 
+        bgColor="bg-gray-700/70" icon={<ArrowLeft />} iconPosition="before">
             Back
        </EventButton>
        <EventButton icon={<SendHorizontal />} bgColor="bg-[#3285df]">
