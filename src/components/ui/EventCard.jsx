@@ -2,7 +2,7 @@
 import EventButton from './EventButton'
 import ProgressFlow from '../event/ProgressFlow'
 
-const EventCard = ({children,currentStep}) => {
+const EventCard = ({children,currentStep,resetAll}) => {
   return (
     <section className="relative w-full max-w-[650px] overflow-hidden rounded-2xl border border-[#9a82c5]/35 bg-gradient-to-br from-[#120d21]/75 via-[#25183d]/70 to-[#3b2761]/65 px-7 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:px-8 sm:py-8 ">
         <span
@@ -18,7 +18,7 @@ const EventCard = ({children,currentStep}) => {
           <h1 className="text-[23px] font-semibold tracking-[-0.02em] text-[#f4f6f5]">
             Event registration
           </h1>
-          <EventButton bgColor="bg-[#bd4c5a]" >
+          <EventButton bgColor="bg-[#bd4c5a]" onClick={resetAll}>
         Reset
         </EventButton>
         </div>

@@ -9,10 +9,11 @@ const EventDetails = ({
   userDetails,
   setUserDetails,
   userDetailsErrors,
-  currentStep }) => {
+  currentStep,
+  resetAll }) => {
     
   return (
-<EventCard currentStep={currentStep}
+<EventCard currentStep={currentStep} resetAll={resetAll}
  >
         <form className="mt-7 space-y-4" onSubmit={handleDetailsSubmission}>
           <div>

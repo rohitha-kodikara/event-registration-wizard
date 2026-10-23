@@ -17,7 +17,8 @@ const EventTicket = ({
   promoCode,
   setPromoCode,
   validatePromocode,
-  totalPrice
+  totalPrice,
+  resetAll
   }) => {
     
     function handleIncrement() {
@@ -33,7 +34,7 @@ const EventTicket = ({
     
 
   return (
-      <EventCard currentStep={currentStep}>
+      <EventCard currentStep={currentStep} resetAll={resetAll}>
 
         <form onSubmit={handleTicketSubmission} className="mt-7 space-y-4">
           <div>

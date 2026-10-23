@@ -4,6 +4,7 @@ import EventTicket from './components/event/ticket/EventTicket'
 import EventReview from './components/event/review/EventReview'
 import { useState } from 'react'
 import {registrationSteps,defaultRegStep,ticketTypes,promoCodes} from './data/data'
+import Swal from 'sweetalert2'
 
 
 const App = () => {
@@ -27,7 +28,7 @@ const App = () => {
   const [ticketType, setTicketType] = useState(''); // Default to the first ticket type
   const [ticketQuantity, setTicketQuantity] = useState(1); 
   const[promoCode, setPromoCode] = useState(''); // State to store the promo code 
-  // const[ticketInfo, setTicketInfo] = useState({});
+  const[ticketInfo, setTicketInfo] = useState({});
 const [appliedPromoCode, setAppliedPromoCode] = useState('');
 
   //event ticket validation
@@ -159,15 +160,19 @@ function handleTicketSubmission(event) {
   if (Object.keys(ticketErrors).length === 0) {
 
     const ticketUnitPrice = ticketTypes.find((ticket) => ticket.name === ticketType)?.price || 0;
+    const promoCodeValue = promoCodes.find((promo) => promo.code === appliedPromoCode)?.value || 0;
+    const promoCodeType = promoCodes.find((promo) => promo.code === appliedPromoCode)?.type || null;
 
-    // setTicketInfo({
-    //   name: userDetails.fullName,
-    //   email: userDetails.email,
-    //   ticketType: ticketType,
-    //   ticketQuantity: ticketQuantity,
-    //   promoCode: promoCode,
-    //   ticketPrice: ticketUnitPrice,
-    // });
+    setTicketInfo({
+      name: userDetails.fullName,
+      email: userDetails.email,
+      ticketType: ticketType,
+      ticketQuantity: ticketQuantity,
+      promoCode: promoCode,
+      ticketPrice: ticketUnitPrice,
+      promoCodeValue: promoCodeValue,
+      promoCodeType: promoCodeType,
+    });
     handleNextStep();
   }
 
@@ -177,28 +182,82 @@ const maxNumOfTickets = 10; // Maximum number of tickets allowed
 //get ticket price for calculating total price
  
 
-const totalPrice = useMemo(() => {
+const priceSummary = useMemo(() => {
   const ticketUnitPrice =
     ticketTypes.find((ticket) => ticket.name === ticketType)?.price || 0;
+
+  const subtotal = ticketUnitPrice * ticketQuantity;
 
   const appliedPromo = promoCodes.find(
     (promo) => promo.code === appliedPromoCode
   );
 
   if (!appliedPromo) {
-    return ticketUnitPrice * ticketQuantity;
+    return {
+      subtotal,
+      discount: 0,
+      totalPrice: subtotal,
+    };
   }
+
+  let discount = 0;
 
   if (appliedPromo.type === 'percent') {
-    const discount = ticketUnitPrice * (appliedPromo.value / 100);
-
-    return (ticketUnitPrice - discount) * ticketQuantity;
+    discount = subtotal * (appliedPromo.value / 100);
+  } else if (appliedPromo.type === 'fixed') {
+    discount = appliedPromo.value * ticketQuantity;
   }
-  return (ticketUnitPrice - appliedPromo.value) * ticketQuantity;
-  
-}, [ticketType, ticketQuantity, appliedPromoCode]);
-  
 
+  const totalPrice = Math.max(0, subtotal - discount);
+
+  return {
+    subtotal,
+    discount,
+    totalPrice,
+  };
+}, [ticketType, ticketQuantity, appliedPromoCode]);
+
+const { subtotal, discount, totalPrice } = priceSummary;
+
+
+//------------------handleSubmitReview-----------------------
+function handleSubmitReview(){
+  Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, Submit !"
+}).then((result) => {
+  if (result.isConfirmed){
+     setTicketType('');
+  setTicketQuantity(1);
+  setPromoCode('');
+  setAppliedPromoCode('');
+  setUserDetails({
+    fullName: '',
+    email: '',
+  });
+  setCurrentStep(defaultRegStep);
+
+   };
+});
+}
+
+//------------------Reset function--------------------------------
+function resetAll(){
+   setUserDetails({
+    fullName: '',
+    email: '',
+  });
+  setTicketType('');
+  setTicketQuantity(1);
+  setPromoCode('');
+  setAppliedPromoCode('');
+  setCurrentStep(defaultRegStep);
+}
 
 
   return (
@@ -214,6 +273,7 @@ const totalPrice = useMemo(() => {
   handleDetailsSubmission={handleDetailsSubmission}
   userDetailsErrors={userDetailsErrors}
   currentStep={currentStep}
+  resetAll={resetAll}
   />
 )}
 
@@ -233,6 +293,7 @@ const totalPrice = useMemo(() => {
     validateEventTicket={validateEventTicket}
     validatePromocode={validatePromocode}
     totalPrice={totalPrice}
+    resetAll={resetAll}
   />
 )}
 
@@ -240,9 +301,13 @@ const totalPrice = useMemo(() => {
   <EventReview 
   handlePrevStep={handlePrevStep}
   currentStep={currentStep}
-   totalPrice={totalPrice}
    handleNextStep={handleNextStep}
-   discount={appliedPromoCode ? promoCodes.find((promo) => promo.code === appliedPromoCode)?.value : 0}
+  subtotal={subtotal}
+  discount={discount}
+  totalPrice={totalPrice}
+  ticketInfo={ticketInfo}
+  handleSubmitReview={handleSubmitReview}
+  resetAll={resetAll}
   />
 )}
     
