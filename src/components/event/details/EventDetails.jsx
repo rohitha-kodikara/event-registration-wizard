@@ -33,7 +33,12 @@ const EventDetails = ({
                 : 'border-white/15 focus:border-[#4b9bea]'
             }`}
               value={userDetails.fullName}
-              onChange={(e) => setUserDetails({...userDetails, fullName: e.target.value})}
+             onChange={(e) =>
+              setUserDetails({
+                ...userDetails,
+                fullName: e.target.value,
+              })
+            }
             />
             {userDetailsErrors.fullName && (
             <p className="mt-2 text-[16px] font-medium text-[#ff6a6a]">
@@ -51,7 +56,12 @@ const EventDetails = ({
             </label>
             <input
               value={userDetails.email}
-              onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
+             onChange={(e) =>
+              setUserDetails({
+                ...userDetails,
+                email: e.target.value,
+              })
+            }
               id="email"
               type="email"
               placeholder="kasun@email"

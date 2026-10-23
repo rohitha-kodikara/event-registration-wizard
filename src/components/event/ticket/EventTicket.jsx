@@ -18,17 +18,20 @@ const EventTicket = ({
   setPromoCode,
   validatePromocode,
   totalPrice,
-  resetAll
+  resetAll,
+  incrementTicketQuantity,
+  decrementTicketQuantity,
+  handleApplyPromoCode
   }) => {
     
     function handleIncrement() {
       if (ticketQuantity < maxNumOfTickets) {
-        setTicketQuantity((prevQuantity) => prevQuantity + 1);
+        incrementTicketQuantity();
       }
     }
 
     function handleDecrement() {
-      setTicketQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
+      decrementTicketQuantity();
     }
 
     
@@ -112,7 +115,7 @@ const EventTicket = ({
                 className="h-11 min-w-0 flex-1 rounded-[9px] border border-white/15 bg-[#0b1a2c]/55 px-4 text-[16px] text-[#f1f4f2] placeholder:text-[#8291a3] outline-none transition-colors focus:border-[#4b9bea] focus:ring-1 focus:ring-[#4b9bea]"
               />
               <EventButton
-                onClick={() => validatePromocode(promoCode)}
+                onClick={() => handleApplyPromoCode(promoCode)}
                 type="button"
                 bgColor="bg-gray-700/70">
                 Apply
