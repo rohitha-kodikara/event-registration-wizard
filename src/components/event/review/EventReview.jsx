@@ -3,9 +3,9 @@ import EventCard from '../../ui/EventCard'
 import EventButton from '../../ui/EventButton'
 import { ArrowLeft, SendHorizontal } from 'lucide-react'
 
-const EventReview = ({  handlePrevStep }) => {
+const EventReview = ({  handlePrevStep,currentStep,totalPrice,discount }) => {
   return (
-    <EventCard>
+    <EventCard currentStep={currentStep}>
 
       <div className="mt-5 space-y-3">
         <div>
@@ -47,11 +47,11 @@ const EventReview = ({  handlePrevStep }) => {
           </div>
           <div className="flex items-center justify-between py-0.5">
             <span className="text-[#d8ddda]">Discount</span>
-            <span className="font-semibold text-[#16c94a]">-$9</span>
+            <span className="font-semibold text-[#16c94a]">-{discount.toFixed(2)}</span>
           </div>
           <div className="mt-1 flex items-center justify-between border-t border-white/10 pt-2">
             <span className="font-semibold text-[#f1f4f2]">Total</span>
-            <span className="font-semibold text-[#d9ebff]">$81</span>
+            <span className="font-semibold text-[#d9ebff]">{totalPrice.toFixed(2)}</span>
           </div>
         </div>
       </div>

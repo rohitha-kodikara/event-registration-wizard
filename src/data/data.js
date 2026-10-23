@@ -8,7 +8,7 @@ const ticketTypes = [
  const promoCodes = [
   { code: 'SAVE10', type: 'percent', value: 10 },
   { code: 'STUDENT20', type: 'percent', value: 20 },
-  { code: 'WELCOME5', type: 'fixed', value: 5 },
+  { code: 'WELCOME5', type: 'fixed', value: 26 },
 ]
 
  const registrationSteps = [

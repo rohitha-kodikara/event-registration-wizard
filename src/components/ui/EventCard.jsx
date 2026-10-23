@@ -2,9 +2,9 @@
 import EventButton from './EventButton'
 import ProgressFlow from '../event/ProgressFlow'
 
-const EventCard = ({children}) => {
+const EventCard = ({children,currentStep}) => {
   return (
-    <section className="relative w-full max-w-[650px] overflow-hidden rounded-2xl border border-[#9a82c5]/35 bg-gradient-to-br from-[#120d21]/75 via-[#25183d]/70 to-[#3b2761]/65 px-7 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:px-8 sm:py-8">
+    <section className="relative w-full max-w-[650px] overflow-hidden rounded-2xl border border-[#9a82c5]/35 bg-gradient-to-br from-[#120d21]/75 via-[#25183d]/70 to-[#3b2761]/65 px-7 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:px-8 sm:py-8 ">
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-screen"
@@ -22,7 +22,7 @@ const EventCard = ({children}) => {
         Reset
         </EventButton>
         </div>
-        <ProgressFlow /> 
+        <ProgressFlow currentStep={currentStep} /> 
             {children}
         </div>
       </section>

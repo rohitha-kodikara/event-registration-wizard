@@ -1,27 +1,74 @@
-import React from 'react'
+
 import EventCard from '../../ui/EventCard'
 import EventButton from '../../ui/EventButton'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import {ticketTypes} from '../../../data/data'
 
-const EventTicket = ({ handleNextStep, handlePrevStep }) => {
+const EventTicket = ({ 
+  handleTicketSubmission,
+  validateEventTicket, 
+  handlePrevStep,
+  currentStep,
+  setTicketType,
+  ticketType,
+  ticketQuantity,
+  setTicketQuantity,
+  maxNumOfTickets,
+  promoCode,
+  setPromoCode,
+  validatePromocode,
+  totalPrice
+  }) => {
+    
+    function handleIncrement() {
+      if (ticketQuantity < maxNumOfTickets) {
+        setTicketQuantity((prevQuantity) => prevQuantity + 1);
+      }
+    }
+
+    function handleDecrement() {
+      setTicketQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
+    }
+
+    
+
   return (
-      <EventCard>
+      <EventCard currentStep={currentStep}>
 
-        <form className="mt-7 space-y-4">
+        <form onSubmit={handleTicketSubmission} className="mt-7 space-y-4">
           <div>
             <label
               htmlFor="ticket-type"
               className="mb-1.5 block text-[15px] font-medium text-[#d8ddda]"
             >
               Ticket type
-            </label>
+            </label> 
             <select
+              value={ticketType}
+              onChange={(e) => setTicketType(e.target.value)}
+              name="ticket-type"
               id="ticket-type"
-              defaultValue="standard"
               className="h-11 w-full rounded-[9px] border border-white/15 bg-[#0b1a2c]/55 px-4 text-[16px] font-semibold text-[#f1f4f2] outline-none transition-colors focus:border-[#4b9bea] focus:ring-1 focus:ring-[#4b9bea]"
             >
-              <option value="standard">Standard</option>
+            <option value="" disabled>
+            Select a ticket type
+          </option>
+              {
+                ticketTypes.map((ticketType) => (
+                  
+                  <option
+                    key={ticketType.id}
+                    value={ticketType.name}
+                    className="bg-[#25183d] text-white"
+                  >
+                    {ticketType.name}
+                  </option>
+                ))
+              }
             </select>
+            <p className="mt-1.5 text-[14px] font-medium text-[#f04d30]">
+              {validateEventTicket.ticketTypeError}
+            </p>
           </div>
 
           <div>
@@ -29,19 +76,21 @@ const EventTicket = ({ handleNextStep, handlePrevStep }) => {
               Number of tickets
             </span>
             <div className="flex items-center gap-4">
-              <button
+              <EventButton
+                bgColor="bg-blue-700/50"
                 type="button"
-                className="flex h-6 w-9 items-center justify-center rounded-[8px] border border-white/25 text-[18px] text-[#dce5ed]"
+                onClick={handleDecrement}
               >
-                −
-              </button>
-              <span className="text-[16px] font-semibold text-[#f1f4f2]">2</span>
-              <button
+               <span className="text-[18px] font-extrabold"> −</span>
+              </EventButton>
+              <span className="text-[16px] font-semibold text-[#f1f4f2]">{ticketQuantity}</span>
+              <EventButton
                 type="button"
-                className="flex h-6 w-9 items-center justify-center rounded-[8px] border border-white/25 text-[18px] text-[#dce5ed]"
+                bgColor="bg-blue-700/50"
+               onClick={handleIncrement}
               >
-                +
-              </button>
+                <span className="text-[18px] font-extrabold">+</span>
+              </EventButton>
             </div>
           </div>
 
@@ -54,26 +103,28 @@ const EventTicket = ({ handleNextStep, handlePrevStep }) => {
             </label>
             <div className="flex gap-2">
               <input
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
                 id="promo-code"
                 type="text"
                 placeholder="SAVE10"
                 className="h-11 min-w-0 flex-1 rounded-[9px] border border-white/15 bg-[#0b1a2c]/55 px-4 text-[16px] text-[#f1f4f2] placeholder:text-[#8291a3] outline-none transition-colors focus:border-[#4b9bea] focus:ring-1 focus:ring-[#4b9bea]"
               />
-              <button
+              <EventButton
+                onClick={() => validatePromocode(promoCode)}
                 type="button"
-                className="h-11 rounded-[9px] border border-white/25 px-4 text-[15px] font-semibold text-[#f1f4f2] transition-colors hover:bg-white/10"
-              >
+                bgColor="bg-gray-700/70">
                 Apply
-              </button>
+              </EventButton>
             </div>
-            <p className="mt-1.5 text-[14px] font-medium text-[#ff6a6a]">
-              That code isn’t valid. Try another.
+            <p className="mt-1.5 text-[14px] font-medium text-[#f04d30]">
+              {validateEventTicket.promoCodeError}
             </p>
           </div>
 
           <div className="flex items-center justify-between rounded-[9px] bg-[#0b0f16]/65 px-4 py-3 text-[14px]">
             <span className="font-medium text-[#d8ddda]">Total</span>
-            <span className="text-[17px] font-semibold text-[#f1f4f2]">$40</span>
+            <span className="text-[17px] font-semibold text-[#f1f4f2]">{totalPrice.toFixed(2)}</span>
           </div>
 
           <div className="flex justify-between pt-1">
@@ -83,7 +134,7 @@ const EventTicket = ({ handleNextStep, handlePrevStep }) => {
             Back
            </EventButton>
             <EventButton icon={<ArrowRight />} bgColor="bg-[#3285df]"
-            onClick={handleNextStep}
+            onClick={handleTicketSubmission}
             >
               Next
             </EventButton>
