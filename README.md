@@ -1,4 +1,8 @@
 # Event Registration
+<img width="937" height="702" alt="image" src="https://github.com/user-attachments/assets/ccb752bc-2057-49ce-99ea-1128ef82890c" />
+<img width="880" height="767" alt="image" src="https://github.com/user-attachments/assets/e23eca67-cc3a-4592-9631-a5451d70730d" />
+<img width="852" height="841" alt="image" src="https://github.com/user-attachments/assets/3f366312-ff76-4ffd-ac3a-a0add6a0b4ae" />
+
 
 A multi-step event registration form built with React. Users enter their details, pick a ticket and apply a promo code, then review everything before submitting. Built with React (hooks and useReducer), Tailwind CSS, SweetAlert2, and Lucide icons.
 
