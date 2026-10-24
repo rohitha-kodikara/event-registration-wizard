@@ -99,7 +99,18 @@ Both handlers send the error through the same action, so the reducer saves it in
 - if it's invalid, it saves the error message and clears the old `appliedPromoCode`
 - if it's valid, it stores the code in `appliedPromoCode`
 
-The price itself comes from `calculatePriceSummary` in `priceCalculator.js`. It finds the ticket price, multiplies by the quantity to get the subtotal, then finds the promo and calculates the discount (a percentage of the subtotal, or the fixed value times the quantity). I call it inside `useMemo` in `App.jsx` with `ticketType`, `ticketQuantity` and `appliedPromoCode` as dependencies, so the total is recalculated whenever any of them changes.
+### 3.2 Recalculating the total price when the inputs change
+
+**Problem:** The total price depends on three things: the ticket type, the quantity and the promo code. Whenever any of these changes, the total should be recalculated using the new values. My first attempt did not do this correctly, so the total sometimes didn't match what the user had selected.
+
+**Solution:** I moved all the price logic into one function, `calculatePriceSummary` in `priceCalculator.js`, so there is only one place that decides the price. It works like this:
+
+1. Finds the ticket price from the selected ticket type.
+2. Multiplies it by the quantity to get the subtotal.
+3. Looks for the applied promo code. If there isn't one, the total is just the subtotal.
+4. If there is one, it calculates the discount, either a percentage of the subtotal or a fixed amount multiplied by the quantity.
+
+In `App.jsx` I call this function inside `useMemo`, with the ticket type, quantity and applied promo code as dependencies. This way the total is recalculated every time one of them changes.
 
 ```js
 const priceSummary = useMemo(
@@ -107,6 +118,8 @@ const priceSummary = useMemo(
   [state.ticketType, state.ticketQuantity, state.appliedPromoCode]
 );
 ```
+
+For the promo code I keep two separate values in state: `promoCode` (what the user is typing) and `appliedPromoCode` (a code that has passed validation). `handleApplyPromoCode` only saves the code into `appliedPromoCode` when it is valid, and clears it when it is not. So the discount is added only after a valid Apply, and removed again if the user applies a wrong code.
 
 ### 3.3 Passing dispatch to child components, with and without values
 
