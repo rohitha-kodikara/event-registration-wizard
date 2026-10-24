@@ -12,11 +12,8 @@ const EventTicket = ({
   setTicketType,
   ticketType,
   ticketQuantity,
-  setTicketQuantity,
-  maxNumOfTickets,
   promoCode,
   setPromoCode,
-  validatePromocode,
   totalPrice,
   resetAll,
   incrementTicketQuantity,
@@ -25,9 +22,8 @@ const EventTicket = ({
   }) => {
     
     function handleIncrement() {
-      if (ticketQuantity < maxNumOfTickets) {
         incrementTicketQuantity();
-      }
+      
     }
 
     function handleDecrement() {

@@ -425,7 +425,8 @@ function resetAll(){
     ticketType={state.ticketType}
     ticketQuantity={state.ticketQuantity}
     incrementTicketQuantity={() =>
-      dispatch({ type: 'increment_ticket_quantity', payload: { max: maxNumOfTickets } })
+      dispatch({ type: 'increment_ticket_quantity', 
+        payload: { max: maxNumOfTickets } })
     }
     decrementTicketQuantity={() =>
         dispatch({ type: 'decrement_ticket_quantity' })
