@@ -109,8 +109,6 @@ const priceSummary = useMemo(
 );
 ```
 
-For the promo code I keep two separate values in state: `promoCode` (what the user is typing) and `appliedPromoCode` (a code that has passed validation). `handleApplyPromoCode` only saves the code into `appliedPromoCode` when it is valid, and clears it when it is not. So the discount is added only after a valid Apply, and removed again if the user applies a wrong code.
-
 ### 3.3 Passing dispatch to child components, with and without values
 
 **Problem:** The child components needed to trigger reducer actions, but some actions need a value (like the selected ticket type) and some don't (like the minus button).
