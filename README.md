@@ -42,16 +42,51 @@ The flow works like this:
 
 ## 3. Challenges I Faced and How I Solved Them
 
-### 3.1 Showing the right error messages on the Ticket step
+### 3.1 Triggering the right errors in two different situations
 
-**Problem:** If the user clicks Next without choosing a ticket type, or enters a wrong promo code, the app should show a clear message instead of just moving on.
+**Problem:** On the Ticket step, error messages have to appear in two different situations:
+
+1. When the user clicks **Next** with empty fields, the errors for the empty fields should show up.
+2. When the user types an invalid promo code and clicks **Apply**, an invalid promo code error should show up, without having to press Next.
+
+I was stuck on how to make the same kind of error work for both buttons.
 
 **Solution:** I wrote the validation as small separate functions in `validators.js`:
 
 - `validateTicketForm` checks that a ticket type is selected.
 - `validatePromocode` returns a different message depending on the problem: nothing entered, wrong characters or too long, or a code that doesn't exist in my `promoCodes` list.
 
-When Next is clicked, `handleTicketSubmission` runs both checks and sends the results to the reducer, which saves them in `validateEventTicket` (`ticketTypeError` and `promoCodeError`). `EventTicket` shows these messages in red under each field. The user only moves to the next step when there are no errors.
+Then I used the same validator and the same reducer action from both buttons.
+
+**Next button:** In `handleTicketSubmission`, I created a variable called `promoCodeError` and saved the result of `validatePromocode` in it. After that I send it to the reducer with the `validate_promo_code` action. The ticket type is checked the same way with `validate_ticket_type`.
+
+```js
+function handleTicketSubmission(event) {
+  event.preventDefault();
+  const ticketErrors = validateTicketForm(state.ticketType);
+  const promoCodeError = validatePromocode(state.promoCode);
+
+  dispatch({ type: 'validate_ticket_type', payload: { ticketType: state.ticketType } });
+  dispatch({ type: 'validate_promo_code', payload: { promoCodeError } });
+  ...
+}
+```
+
+**Apply button:** I created a separate function called `handleApplyPromoCode`. Inside it I do the same thing: call `validatePromocode(promoCode)`, save the result in `promoCodeError`, and dispatch `validate_promo_code`. The Apply button passes the current promo code into it:
+
+```jsx
+<EventButton onClick={() => handleApplyPromoCode(promoCode)}>Apply</EventButton>
+```
+
+```js
+function handleApplyPromoCode(promoCode) {
+  const promoCodeError = validatePromocode(promoCode);
+  dispatch({ type: 'validate_promo_code', payload: { promoCodeError } });
+  ...
+}
+```
+
+Both handlers send the error through the same action, so the reducer saves it in the same place, `validateEventTicket` (`ticketTypeError` and `promoCodeError`). `EventTicket` reads from there and shows the message in red under each field. So the user sees the same promo error whether they click Apply or Next, and the user only moves to the next step when there are no errors.
 
 ### 3.2 Updating the total price when Apply is clicked
 
