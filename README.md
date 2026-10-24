@@ -88,16 +88,6 @@ function handleApplyPromoCode(promoCode) {
 
 Both handlers send the error through the same action, so the reducer saves it in the same place, `validateEventTicket` (`ticketTypeError` and `promoCodeError`). `EventTicket` reads from there and shows the message in red under each field. So the user sees the same promo error whether they click Apply or Next, and the user only moves to the next step when there are no errors.
 
-### 3.2 Updating the total price when Apply is clicked
-
-**Problem:** When the user clicks Apply with a valid promo code, the discount should be included and the total should be calculated again.
-
-**Solution:** I keep two separate values in state: `promoCode` (whatever the user is typing) and `appliedPromoCode` (a code that has passed validation). This way the price doesn't change while the user is still typing, only after Apply.
-
-`handleApplyPromoCode` trims and uppercases the text, validates it, and then:
-
-- if it's invalid, it saves the error message and clears the old `appliedPromoCode`
-- if it's valid, it stores the code in `appliedPromoCode`
 
 ### 3.2 Recalculating the total price when the inputs change
 
