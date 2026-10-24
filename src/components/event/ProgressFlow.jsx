@@ -9,9 +9,9 @@ const ProgressFlow = ({currentStep}) => {
     <nav aria-label="Registration progress" className="mt-7">
           <ol className="flex items-center">
            
-        {
+        { 
           registrationSteps.map((step, index) => (
-            <li key={step.name} className="flex min-w-0 flex-1 items-center">
+            <li key={step.id} className="flex min-w-0 flex-1 items-center">
               <div className="flex shrink-0 items-center gap-3">
                 <span className={`flex h-8 w-8 items-center justify-center rounded-full ${index < currentStepIndex ? 'bg-[#06910f]' : 'bg-blue-900/80 text-sm text-[#8e9aaa] ring-1 ring-[#1164bd]'}`}>
                   {index + 1}
